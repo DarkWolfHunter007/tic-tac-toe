@@ -1,3 +1,15 @@
+// 💫 Force clean reload once per session
+if (!sessionStorage.getItem("refreshedOnce")) {
+  sessionStorage.setItem("refreshedOnce", "true");
+  localStorage.clear(); // optional
+  document.cookie.split(";").forEach(c => {
+    document.cookie = c
+      .replace(/^ +/, "")
+      .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+  });
+  window.location.reload(true);
+}
+
 // 🌸 Elements
 const board = document.getElementById("board");
 const statusDiv = document.getElementById("status");
