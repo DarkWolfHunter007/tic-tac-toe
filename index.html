@@ -9,24 +9,29 @@
   <meta name="theme-color" content="#ffb6c1" />
 </head>
 <body>
-  <h1>Tic Tac Toe 💖</h1>
-  <div id="status">Turn: X</div>
-  <div class="board" id="board">
-    <button class="cell" data-i="0"></button>
-    <button class="cell" data-i="1"></button>
-    <button class="cell" data-i="2"></button>
-    <button class="cell" data-i="3"></button>
-    <button class="cell" data-i="4"></button>
-    <button class="cell" data-i="5"></button>
-    <button class="cell" data-i="6"></button>
-    <button class="cell" data-i="7"></button>
-    <button class="cell" data-i="8"></button>
+  <div class="mode-select" id="modeSelect">
+    <h2>Choose Game Mode 🎮</h2>
+    <button class="mode-btn" id="friendMode">Play vs Friend 💕</button>
+    <button class="mode-btn" id="aiMode">Play vs AI 🤖</button>
   </div>
-  <button id="reset">Reset 💫</button>
 
-  <footer>
-    Made with ❤️ by Allen MT Maliyil
-  </footer>
+  <div class="game" id="game" style="display:none;">
+    <h1>Tic Tac Toe 💖</h1>
+    <div id="status">Turn: X</div>
+    <div class="board" id="board">
+      <button class="cell" data-i="0"></button>
+      <button class="cell" data-i="1"></button>
+      <button class="cell" data-i="2"></button>
+      <button class="cell" data-i="3"></button>
+      <button class="cell" data-i="4"></button>
+      <button class="cell" data-i="5"></button>
+      <button class="cell" data-i="6"></button>
+      <button class="cell" data-i="7"></button>
+      <button class="cell" data-i="8"></button>
+    </div>
+    <button id="reset">Reset 💫</button>
+    <footer>Made with ❤️ by Allen MT Maliyil</footer>
+  </div>
 
   <script src="app.js"></script>
   <script>
