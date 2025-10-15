@@ -80,6 +80,65 @@ h1 {
   align-items: center;
 }
 
+/* 💕 Popup style*/
+/* 🌸 Popup Modal */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 182, 193, 0.6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  animation: fadeIn 0.3s ease;
+}
+
+.popup.hidden {
+  display: none;
+}
+
+.popup-content {
+  background: #fff0f5;
+  border: 3px solid #ff69b4;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(255, 105, 180, 0.4);
+  padding: 30px 40px;
+  text-align: center;
+  animation: popIn 0.4s ease;
+}
+
+.popup-content h2 {
+  color: #ff1493;
+  font-size: 1.8rem;
+  margin-bottom: 16px;
+}
+
+#popup-close {
+  background: #ff69b4;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#popup-close:hover {
+  background: #ff1493;
+  transform: scale(1.05);
+}
+
+/* ✨ Animation for popup */
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
 /* 💕 Board Cells */
 .cell {
   aspect-ratio: 1 / 1;
