@@ -61,3 +61,11 @@ h1 {
   background: #ff1493;
   transform: scale(1.05);
 }
+
+footer {
+  margin-top: 24px;
+  font-size: 0.9rem;
+  color: #ff1493;
+  text-align: center;
+  font-weight: 600;
+}
