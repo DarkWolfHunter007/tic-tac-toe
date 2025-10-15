@@ -1,46 +1,90 @@
-const boardEl = document.getElementById('board');
-const cells = Array.from(document.querySelectorAll('.cell'));
-const statusEl = document.getElementById('status');
-const resetBtn = document.getElementById('reset');
+const board = document.getElementById("board");
+const statusDiv = document.getElementById("status");
+const resetBtn = document.getElementById("reset");
+const modeSelect = document.getElementById("modeSelect");
+const game = document.getElementById("game");
 
-let board = Array(9).fill(null);
-let xTurn = true;
-const wins = [
-  [0,1,2],[3,4,5],[6,7,8],
-  [0,3,6],[1,4,7],[2,5,8],
-  [0,4,8],[2,4,6]
-];
+let cells = Array.from(document.querySelectorAll(".cell"));
+let currentPlayer = "X";
+let boardState = Array(9).fill("");
+let aiEnabled = false;
+let gameActive = true;
 
-function checkWinner(b) {
-  for (const [a, c, d] of wins) {
-    if (b[a] && b[a] === b[c] && b[a] === b[d]) return b[a];
-  }
-  return b.every(v => v) ? 'draw' : null;
-}
+document.getElementById("friendMode").addEventListener("click", () => {
+  aiEnabled = false;
+  startGame();
+});
 
-function updateStatus() {
-  const res = checkWinner(board);
-  if (res === 'draw') statusEl.textContent = 'Draw!';
-  else if (res) statusEl.textContent = `Winner: ${res}`;
-  else statusEl.textContent = `Turn: ${xTurn ? 'X' : 'O'}`;
+document.getElementById("aiMode").addEventListener("click", () => {
+  aiEnabled = true;
+  startGame();
+});
+
+function startGame() {
+  modeSelect.style.display = "none";
+  game.style.display = "block";
+  resetGame();
 }
 
 function handleClick(e) {
-  const i = +e.target.dataset.i;
-  if (board[i] || checkWinner(board)) return;
-  board[i] = xTurn ? 'X' : 'O';
-  e.target.textContent = board[i];
-  xTurn = !xTurn;
-  updateStatus();
+  const index = e.target.dataset.i;
+  if (!gameActive || boardState[index] !== "") return;
+
+  boardState[index] = currentPlayer;
+  e.target.textContent = currentPlayer;
+  e.target.disabled = true;
+
+  if (checkWin()) {
+    statusDiv.textContent = `${currentPlayer} wins! 🎉`;
+    gameActive = false;
+    return;
+  }
+
+  if (boardState.every(cell => cell !== "")) {
+    statusDiv.textContent = "It's a draw! 😅";
+    gameActive = false;
+    return;
+  }
+
+  currentPlayer = currentPlayer === "X" ? "O" : "X";
+  statusDiv.textContent = `Turn: ${currentPlayer}`;
+
+  if (aiEnabled && currentPlayer === "O" && gameActive) {
+    setTimeout(aiMove, 500); // little delay for realism
+  }
 }
 
-function reset() {
-  board.fill(null);
-  cells.forEach(c => c.textContent = '');
-  xTurn = true;
-  updateStatus();
+function aiMove() {
+  let emptyIndices = boardState.map((v, i) => v === "" ? i : null).filter(v => v !== null);
+  if (emptyIndices.length === 0) return;
+  let randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+  const cell = cells[randomIndex];
+  cell.click();
 }
 
-cells.forEach(c => c.addEventListener('click', handleClick));
-resetBtn.addEventListener('click', reset);
-updateStatus();
+function checkWin() {
+  const wins = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+  return wins.some(([a,b,c]) =>
+    boardState[a] &&
+    boardState[a] === boardState[b] &&
+    boardState[a] === boardState[c]
+  );
+}
+
+function resetGame() {
+  boardState.fill("");
+  gameActive = true;
+  currentPlayer = "X";
+  cells.forEach(c => {
+    c.textContent = "";
+    c.disabled = false;
+  });
+  statusDiv.textContent = "Turn: X";
+}
+
+cells.forEach(cell => cell.addEventListener("click", handleClick));
+resetBtn.addEventListener("click", resetGame);
